@@ -159,5 +159,22 @@
       "assets/images/project-8.jpg"
     ],
     "testimonials": []
+  },
+  {
+    "id": "proj-009",
+    "name": "Rechiro",
+    "category": "Tech",
+    "status": "Ongoing",
+    "shortDescription": "A web and digital marketplace helping fishermen sell their fish directly to buyers.",
+    "problem": "Small-scale fishers lack consistent market access and fair pricing.",
+    "solution": "A digital marketplace that connects fishermen to buyers, improves visibility, and streamlines sales.",
+    "impact": {
+      "people": 60,
+      "revenue": "KES 70,000"
+    },
+    "images": [
+      "assets/images/rechiro_logo.png"
+    ],
+    "testimonials": []
   }
 ]
