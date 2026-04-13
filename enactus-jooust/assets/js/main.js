@@ -304,7 +304,7 @@ function projectCard(project) {
   const statusClass = project.status === 'Completed' ? 'completed' : 'ongoing';
   return `
     <article class="card overflow-hidden cursor-pointer" data-project-id="${project.id}">
-      <div class="h-56 bg-cover bg-center" style="background-image: url('${image}')"></div>
+      <img src="${image}" alt="${project.name}" class="h-56 w-full object-cover">
       <div class="p-6">
         <span class="badge ${statusClass}">${project.status}</span>
         <h3 class="text-xl font-bold mt-3">${project.name}</h3>
@@ -425,7 +425,7 @@ function renderTeamSpotlight() {
   const current = state.team.filter(m => m.era === 'current');
   container.innerHTML = current.map(member => `
     <div class="swiper-slide text-center">
-      <div class="w-28 h-28 md:w-32 md:h-32 mx-auto rounded-full bg-cover bg-center" style="background-image: url('${member.photo}')" title="${member.name}"></div>
+      <img src="${member.photo}" alt="${member.name}" class="w-28 h-28 md:w-32 md:h-32 mx-auto rounded-full object-cover">
       <p class="mt-3 text-sm font-semibold">${member.name}</p>
     </div>
   `).join('');
