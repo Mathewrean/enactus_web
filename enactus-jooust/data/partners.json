@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Safaricom Foundation",
+    "logo": "https://via.placeholder.com/200x80/004d40/ffffff?text=Safaricom",
+    "tier": "Gold",
+    "testimonial": "Proud to empower Kenyan youth through Enactus.",
+    "website": "https://safaricomfoundation.org"
+  },
+  {
+    "name": "KCB Bank",
+    "logo": "https://via.placeholder.com/200x80/dc143c/ffffff?text=KCB",
+    "tier": "Gold",
+    "testimonial": "Supporting sustainable community projects.",
+    "website": "https://kcbgroup.com"
+  },
+  {
+    "name": "JOOUST Administration",
+    "logo": "https://via.placeholder.com/200x80/FFD700/000000?text=JOOUST",
+    "tier": "Gold",
+    "testimonial": "Our university's flagship entrepreneurship team.",
+    "website": "https://jooust.ac.ke"
+  },
+  {
+    "name": "Equity Bank",
+    "logo": "https://via.placeholder.com/200x80/008000/ffffff?text=Equity",
+    "tier": "Silver",
+    "testimonial": "Financing youth-led innovations.",
+    "website": "https://equitybankgroup.com"
+  },
+  {
+    "name": "Bondo County Government",
+    "logo": "https://via.placeholder.com/200x80/4169e1/ffffff?text=Bondo+County",
+    "tier": "Silver",
+    "testimonial": "Partnering for local development.",
+    "website": "https://bondocounty.go.ke"
+  },
+  {
+    "name": "Green Africa Foundation",
+    "logo": "https://via.placeholder.com/200x80/228b22/ffffff?text=Green+Africa",
+    "tier": "Silver",
+    "testimonial": "Aligned with our environmental goals.",
+    "website": "https://greenafrica.org"
+  },
+  {
+    "name": "TechHub Kenya",
+    "logo": "https://via.placeholder.com/200x80/4169e1/ffffff?text=TechHub",
+    "tier": "Bronze",
+    "testimonial": "Providing mentorship and resources.",
+    "website": "https://techhub.co.ke"
+  },
+  {
+    "name": "Local Farmers Co-op",
+    "logo": "https://via.placeholder.com/200x80/8b4513/ffffff?text=Farmers+Co-op",
+    "tier": "Bronze",
+    "testimonial": "Essential partners in agriculture projects.",
+    "website": ""
+  }
+]

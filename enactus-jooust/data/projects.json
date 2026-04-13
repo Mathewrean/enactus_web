@@ -1,0 +1,123 @@
+[
+  {
+    "id": "proj-001",
+    "name": "Smart Farming Initiative",
+    "category": "Agriculture",
+    "status": "Ongoing",
+    "shortDescription": "IoT sensors for smallholder farmers to optimize irrigation and yields.",
+    "problem": "Water scarcity and inefficient farming practices affecting yields.",
+    "solution": "Solar-powered soil moisture sensors with mobile app alerts.",
+    "impact": { "people": 150, "revenue": "KES 120,000" },
+    "images": ["https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800"],
+    "testimonials": [
+      {
+        "name": "Mary Atieno",
+        "quote": "My farm yield increased by 40% thanks to real-time water alerts!"
+      }
+    ]
+  },
+  {
+    "id": "proj-002",
+    "name": "Digital Literacy for Girls",
+    "category": "Education",
+    "status": "Completed",
+    "shortDescription": "Coding bootcamps for rural high school girls.",
+    "problem": "Limited access to tech education for girls in rural areas.",
+    "solution": "6-week coding camps teaching HTML/CSS/JS with donated laptops.",
+    "impact": { "people": 75, "revenue": "KES 80,000" },
+    "images": ["https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800"],
+    "testimonials": [
+      {
+        "name": "Esther Omondi",
+        "quote": "I built my first website and now dream of becoming a developer."
+      }
+    ]
+  },
+  {
+    "id": "proj-003",
+    "name": "Eco-Briquettes",
+    "category": "Environment",
+    "status": "Ongoing",
+    "shortDescription": "Waste-to-fuel briquettes reducing deforestation.",
+    "problem": "Charcoal dependency causing deforestation.",
+    "solution": "Recycling plastic/agro-waste into clean-burning briquettes.",
+    "impact": { "people": 200, "revenue": "KES 45,000" },
+    "images": ["https://images.unsplash.com/photo-1558618047-3c8c76bd4b8a?w=800"],
+    "testimonials": [
+      {
+        "name": "John Ochieng",
+        "quote": "Cheaper than charcoal and cleaner for my family."
+      }
+    ]
+  },
+  {
+    "id": "proj-004",
+    "name": "Telemedicine Hub",
+    "category": "Tech",
+    "status": "Ongoing",
+    "shortDescription": "Remote health consultations for rural clinics.",
+    "problem": "Long travel for basic consultations.",
+    "solution": "Video call platform with local nurses as intermediaries.",
+    "impact": { "people": 300, "revenue": "KES 90,000" },
+    "images": ["https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=800"],
+    "testimonials": [
+      {
+        "name": "Dr. Achieng",
+        "quote": "Saved lives by connecting patients to specialists instantly."
+      }
+    ]
+  },
+  {
+    "id": "proj-005",
+    "name": "Youth Agripreneurs",
+    "category": "Agriculture",
+    "status": "Completed",
+    "shortDescription": "Training youth in modern farming techniques.",
+    "problem": "Youth unemployment and aging farming population.",
+    "solution": "Vocational training in hydroponics and market linkages.",
+    "impact": { "people": 120, "revenue": "KES 200,000" },
+    "images": ["https://images.unsplash.com/photo-1559656442-095f56616b8d?w=800"],
+    "testimonials": []
+  },
+  {
+    "id": "proj-006",
+    "name": "School Solar Lights",
+    "category": "Environment",
+    "status": "Completed",
+    "shortDescription": "Solar lighting for night studies in rural schools.",
+    "problem": "No electricity for evening studies.",
+    "solution": "Portable solar lanterns for students.",
+    "impact": { "people": 500, "revenue": "KES 150,000" },
+    "images": ["https://images.unsplash.com/photo-1509391366360-c7551d9afec8?w=800"],
+    "testimonials": [
+      {
+        "name": "Headteacher Okumu",
+        "quote": "Students now study after dark with safe lights."
+      }
+    ]
+  },
+  {
+    "id": "proj-007",
+    "name": "Code for Community",
+    "category": "Tech",
+    "status": "Ongoing",
+    "shortDescription": "Free coding workshops for underprivileged youth.",
+    "problem": "Lack of tech skills in underserved communities.",
+    "solution": "Weekly coding clubs teaching practical web dev.",
+    "impact": { "people": 80, "revenue": "KES 30,000" },
+    "images": ["https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800"],
+    "testimonials": []
+  },
+  {
+    "id": "proj-008",
+    "name": "Scholarship Connect",
+    "category": "Education",
+    "status": "Ongoing",
+    "shortDescription": "Matching platform for student scholarships.",
+    "problem": "Students unaware of available scholarships.",
+    "solution": "Online database and matching service.",
+    "impact": { "people": 50, "revenue": "KES 60,000" },
+    "images": ["https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800"],
+    "testimonials": []
+  }
+]

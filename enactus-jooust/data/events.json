@@ -1,0 +1,72 @@
+[
+  {
+    "id": "evt-001",
+    "title": "Annual Impact Showcase 2025",
+    "date": "2025-11-15T10:00:00",
+    "venue": "JOOUST Main Auditorium, Bondo",
+    "status": "upcoming",
+    "description": "Celebrating our projects with demos, awards, and networking.",
+    "registrationLink": "https://forms.gle/demo123",
+    "gallery": ["https://images.unsplash.com/photo-1517457373958-b7bdd4587206?w=600"]
+  },
+  {
+    "id": "evt-002",
+    "title": "Project Launch: Smart Farming 2.0",
+    "date": "2025-03-20T14:00:00",
+    "venue": "JOOUST Agriculture Field",
+    "status": "upcoming",
+    "description": "Launch of expanded IoT farming network.",
+    "registrationLink": "https://forms.gle/farminglaunch",
+    "gallery": []
+  },
+  {
+    "id": "evt-003",
+    "title": "National Enactus Conference",
+    "date": "2025-06-10T09:00:00",
+    "venue": "Nairobi",
+    "status": "upcoming",
+    "description": "Representing JOOUST at nationals.",
+    "registrationLink": "",
+    "gallery": []
+  },
+  {
+    "id": "evt-004",
+    "title": "Workshop: Sustainable Briquettes",
+    "date": "2025-04-05T11:00:00",
+    "venue": "JOOUST Community Hall",
+    "status": "upcoming",
+    "description": "Training communities on waste-to-fuel production.",
+    "registrationLink": "https://forms.gle/briquettes",
+    "gallery": []
+  },
+  {
+    "id": "evt-005",
+    "title": "2024 Regional Quarterfinals",
+    "date": "2024-09-15T00:00:00",
+    "venue": "Kisumu",
+    "status": "past",
+    "description": "Advanced to semis with Smart Farming project.",
+    "registrationLink": "",
+    "gallery": ["https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=600"]
+  },
+  {
+    "id": "evt-006",
+    "title": "Digital Literacy Graduation",
+    "date": "2024-07-20T00:00:00",
+    "venue": "JOOUST ICT Lab",
+    "status": "past",
+    "description": "75 girls receive certificates.",
+    "registrationLink": "",
+    "gallery": ["https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600"]
+  },
+  {
+    "id": "evt-007",
+    "title": "Eco-Briquettes Launch",
+    "date": "2024-05-10T00:00:00",
+    "venue": "Local Market, Bondo",
+    "status": "past",
+    "description": "First 100 briquettes sold to community.",
+    "registrationLink": "",
+    "gallery": ["https://images.unsplash.com/photo-1558618047-3c8c76bd4b8a?w=600"]
+  }
+]
