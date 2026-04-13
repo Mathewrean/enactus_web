@@ -1,84 +1,113 @@
-// Enactus JOOUST - Main JavaScript
-// Vanilla JS • AOS • Swiper • Chart.js • Responsive
-
 'use strict';
 
-// Data fallbacks (for file:// protocol)
-const FALLBACK_DATA = {
+// Fallback data for file:// use
+const FALLBACK = {
   projects: [
-    // Minimal fallback - full data loaded from JSON
-    { id: 'fallback', name: 'Sample Project', category: 'All', status: 'Ongoing', shortDescription: 'Demo project' }
+    {
+      id: 'proj-001',
+      name: 'Smart Farming Initiative',
+      category: 'Agriculture',
+      status: 'Ongoing',
+      shortDescription: 'IoT sensors for smallholder farmers to optimize irrigation.',
+      problem: 'Water scarcity and inefficient farming practices affecting yields.',
+      solution: 'Solar-powered soil moisture sensors with mobile alerts.',
+      impact: { people: 150, revenue: 'KES 120,000' },
+      images: ['assets/images/project-1.jpg'],
+      testimonials: [{ name: 'Mary Atieno', quote: 'Yields increased with real-time water alerts.' }]
+    }
   ],
-  events: [],
-  team: [],
-  partners: []
+  events: [
+    {
+      id: 'evt-001',
+      title: 'Annual Impact Showcase',
+      date: '2025-11-15T10:00:00',
+      venue: 'JOOUST Main Auditorium, Bondo',
+      status: 'upcoming',
+      description: 'Celebrating our projects with demos and awards.',
+      registrationLink: 'https://forms.gle/demo123',
+      gallery: []
+    }
+  ],
+  team: [
+    {
+      id: 'tm-001',
+      name: 'Alice Otieno',
+      role: 'President',
+      type: 'executive',
+      era: 'current',
+      yearServed: '2024-2025',
+      photo: 'assets/images/team-1.jpg',
+      bio: 'Passionate about social tech solutions.',
+      linkedin: '',
+      department: null
+    }
+  ],
+  partners: [
+    {
+      name: 'Safaricom Foundation',
+      logo: 'assets/images/partner-1.png',
+      tier: 'Gold',
+      testimonial: 'Proud to empower Kenyan youth through Enactus.',
+      website: 'https://safaricomfoundation.org'
+    }
+  ]
 };
 
-// Global state
-let currentData = { projects: [], events: [], team: [], partners: [] };
-let currentEventCountdown = null;
+const state = { projects: [], events: [], team: [], partners: [] };
 
-// DOM ready
-document.addEventListener('DOMContentLoaded', initApp);
-
-// App initialization
-function initApp() {
-  loadAllData();
+document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
-  initSwipers();
   initAOS();
-  initIntersectionObservers();
-  initCharts();
-  setTimeout(() => {
-    document.body.classList.add('loaded');
-  }, 100);
-}
+  loadAllData().then(() => {
+    renderAll();
+    initSwipers();
+    initCounters();
+    initProjectFilters();
+    startCountdown();
+  });
+});
 
-// Data loader with fallback
-async function loadData(path) {
+async function loadData(key, path) {
   try {
-    const response = await fetch(path);
-    if (!response.ok) throw new Error('Fetch failed');
-    return await response.json();
-  } catch (error) {
+    const res = await fetch(path);
+    if (!res.ok) throw new Error('Fetch failed');
+    const data = await res.json();
+    return Array.isArray(data) ? data : FALLBACK[key];
+  } catch (err) {
     console.warn(`Using fallback for ${path}`);
-    return FALLBACK_DATA;
+    return FALLBACK[key];
   }
 }
 
 async function loadAllData() {
-  const paths = {
-    projects: './data/projects.json',
-    events: './data/events.json',
-    team: './data/team.json',
-    partners: './data/partners.json'
-  };
+  const pairs = [
+    ['projects', './data/projects.json'],
+    ['events', './data/events.json'],
+    ['team', './data/team.json'],
+    ['partners', './data/partners.json']
+  ];
 
-  // Load all parallel
-  const loads = Object.entries(paths).map(([key, path]) => 
-    loadData(path).then(data => ({ [key]: data }))
+  const results = await Promise.all(
+    pairs.map(([key, path]) => loadData(key, path).then(data => [key, data]))
   );
-  
-  const results = await Promise.all(loads);
-  results.forEach(result => Object.assign(currentData, result));
 
-  // Post-load actions
-  renderDynamicContent();
-  startCountdown();
-  initProjectFilters();
+  results.forEach(([key, data]) => { state[key] = data; });
 }
 
-function renderDynamicContent() {
-  // Page-specific renders (use data attributes or classes)
-  if (document.querySelector('.featured-projects')) renderFeaturedProjects();
-  if (document.querySelector('.team-spotlight')) renderTeamSpotlight();
-  if (document.querySelector('.partners-strip')) renderPartners();
-  if (document.querySelector('.event-countdown')) renderEventCountdown();
-  if (document.querySelector('.leadership-grid')) renderLeadership();
-  // Add more as needed
+function renderAll() {
+  if (document.querySelector('[data-featured-projects]')) renderFeaturedProjects();
+  if (document.querySelector('[data-project-grid]')) renderProjectGrid('All');
+  if (document.querySelector('[data-team-spotlight]')) renderTeamSpotlight();
+  if (document.querySelector('[data-partners-strip]')) renderPartnersStrip();
+  if (document.querySelector('[data-partners-grid]')) renderPartnersGrid();
+  if (document.querySelector('[data-partner-testimonials]')) renderPartnerTestimonials();
+  if (document.querySelector('[data-events-upcoming]')) renderEvents();
+  if (document.querySelector('[data-team-page]')) renderTeamPage();
+  if (document.querySelector('[data-stats-bar]')) renderStatsBar();
+  if (document.querySelector('[data-impact-counters]')) renderImpactCounters();
+  if (document.querySelector('[data-join-projects]')) renderJoinProjects();
 }
 
-// Navigation
 function initNavigation() {
   const hamburger = document.querySelector('.hamburger');
   const mobileMenu = document.querySelector('.mobile-menu');
@@ -93,289 +122,244 @@ function initNavigation() {
 
   navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
-      e.preventDefault();
       const href = link.getAttribute('href');
-      if (href.startsWith('#')) {
-        smoothScroll(href);
-      } else {
-        window.location.href = href;
+      if (href && href.startsWith('#')) {
+        e.preventDefault();
+        document.querySelector(href)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
-      // Close mobile menu
       hamburger?.classList.remove('active');
       mobileMenu?.classList.remove('active');
     });
   });
 
-  // Navbar scroll effect
-  let lastScrollY = 0;
   window.addEventListener('scroll', () => {
     const navbar = document.querySelector('nav');
-    if (navbar) {
-      if (window.scrollY > 50) {
-        navbar.classList.add('navbar-scrolled');
-      } else {
-        navbar.classList.remove('navbar-scrolled');
-      }
-    }
+    if (!navbar) return;
+    if (window.scrollY > 40) navbar.classList.add('navbar-scrolled');
+    else navbar.classList.remove('navbar-scrolled');
+  });
+
+  // Active link
+  const path = window.location.pathname.split('/').pop() || 'index.html';
+  navLinks.forEach(link => {
+    if (link.getAttribute('href') === path) link.classList.add('font-bold', 'text-yellow-500');
   });
 }
 
-function smoothScroll(target) {
-  document.querySelector(target)?.scrollIntoView({ 
-    behavior: 'smooth', 
-    block: 'start' 
-  });
+function initAOS() {
+  if (window.AOS) {
+    AOS.init({ duration: 800, easing: 'ease-out-cubic', once: true, offset: 80 });
+  }
 }
 
-// Swiper initialization
 function initSwipers() {
-  // Hero slider
-  const heroSwiper = new Swiper('.swiper-hero', {
-    loop: true,
-    autoplay: { delay: 5000, disableOnInteraction: false },
-    pagination: { el: '.swiper-pagination', clickable: true },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },
-    effect: 'fade',
-    speed: 800,
-  });
+  if (!window.Swiper) return;
 
-  // Featured projects slider
-  new Swiper('.projects-swiper', {
-    slidesPerView: 1,
-    spaceBetween: 20,
-    loop: true,
-    autoplay: { delay: 4000 },
-    pagination: { el: '.projects-pagination', clickable: true },
-    breakpoints: {
-      768: { slidesPerView: 2 },
-      1024: { slidesPerView: 3 }
-    }
-  });
+  if (document.querySelector('.swiper-hero')) {
+    new Swiper('.swiper-hero', {
+      loop: true,
+      autoplay: { delay: 5000, disableOnInteraction: false },
+      pagination: { el: '.swiper-pagination', clickable: true },
+      navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+      effect: 'fade',
+      speed: 900
+    });
+  }
 
-  // Team spotlight
-  new Swiper('.team-spotlight-swiper', {
-    slidesPerView: 'auto',
-    spaceBetween: 20,
-    loop: true,
-    autoplay: { delay: 3000 },
-    centeredSlides: true,
-    breakpoints: {
-      640: { slidesPerView: 4 },
-      1024: { slidesPerView: 6 }
-    }
-  });
+  if (document.querySelector('.projects-swiper')) {
+    new Swiper('.projects-swiper', {
+      slidesPerView: 1,
+      spaceBetween: 16,
+      loop: true,
+      autoplay: { delay: 3500 },
+      pagination: { el: '.projects-pagination', clickable: true },
+      breakpoints: { 768: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }
+    });
+  }
 
-  // Event galleries
-  document.querySelectorAll('.event-gallery').forEach(el => {
+  if (document.querySelector('.team-spotlight-swiper')) {
+    new Swiper('.team-spotlight-swiper', {
+      slidesPerView: 'auto',
+      spaceBetween: 16,
+      loop: true,
+      autoplay: { delay: 2800 },
+      centeredSlides: true,
+      breakpoints: { 640: { slidesPerView: 4 }, 1024: { slidesPerView: 6 } }
+    });
+  }
+
+  document.querySelectorAll('.event-gallery').forEach((el, idx) => {
     new Swiper(el, {
       slidesPerView: 1,
       spaceBetween: 10,
       loop: true,
-      pagination: { el: `.${el.classList[1]}-pagination`, clickable: true },
+      pagination: { el: `.event-gallery-pagination-${idx}`, clickable: true }
     });
   });
 }
 
-// AOS
-function initAOS() {
-  AOS.init({
-    duration: 800,
-    easing: 'ease-out-cubic',
-    once: true,
-    offset: 100,
-  });
-}
+function initCounters() {
+  const counters = document.querySelectorAll('.counter[data-target]');
+  if (!counters.length) return;
 
-// Intersection Observer for counters and animations
-function initIntersectionObservers() {
-  const counters = document.querySelectorAll('.counter');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        counters.forEach(counter => animateCounter(counter));
-        observer.unobserve(entry.target);
+        counters.forEach(el => animateCounter(el));
+        observer.disconnect();
       }
     });
-  }, { threshold: 0.5 });
+  }, { threshold: 0.4 });
 
-  document.querySelectorAll('[data-aos]').forEach(el => observer.observe(el));
+  counters.forEach(el => observer.observe(el));
 }
 
 function animateCounter(el) {
-  const target = parseInt(el.dataset.target);
+  const target = parseInt(el.dataset.target, 10);
+  if (Number.isNaN(target)) return;
   let current = 0;
-  const increment = target / 100;
+  const step = Math.max(1, Math.floor(target / 100));
   const timer = setInterval(() => {
-    current += increment;
+    current += step;
     if (current >= target) {
       el.textContent = target.toLocaleString();
       clearInterval(timer);
     } else {
-      el.textContent = Math.floor(current).toLocaleString();
+      el.textContent = current.toLocaleString();
     }
-  }, 20);
+  }, 18);
 }
 
-// Charts (Projects page)
-function initCharts() {
-  const chartContainers = document.querySelectorAll('.impact-chart');
-  if (chartContainers.length === 0) return;
+function renderStatsBar() {
+  const totalPeople = state.projects.reduce((sum, p) => sum + (p.impact?.people || 0), 0);
+  const completedProjects = state.projects.filter(p => p.status === 'Completed').length;
+  const studentsInvolved = state.team.filter(m => m.era === 'current').length;
 
-  const ctx = chartContainers[0];
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: currentData.projects.map(p => p.name.slice(0, 15)),
-      datasets: [{
-        label: 'People Impacted',
-        data: currentData.projects.map(p => p.impact.people),
-        backgroundColor: 'rgba(255, 215, 0, 0.8)',
-        borderColor: '#FFD700',
-        borderWidth: 2
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: { legend: { display: false } },
-      scales: {
-        y: { beginAtZero: true }
-      }
-    }
+  document.querySelectorAll('[data-stats-bar]').forEach(bar => {
+    bar.innerHTML = `
+      <div class="text-center">
+        <div class="counter text-4xl md:text-6xl font-black" data-target="${completedProjects}">${completedProjects}</div>
+        <div class="text-sm text-gray-600">Projects Completed</div>
+      </div>
+      <div class="text-center">
+        <div class="counter text-4xl md:text-6xl font-black" data-target="${studentsInvolved}">${studentsInvolved}</div>
+        <div class="text-sm text-gray-600">Students Involved</div>
+      </div>
+      <div class="text-center">
+        <div class="counter text-4xl md:text-6xl font-black" data-target="${totalPeople}">${totalPeople.toLocaleString()}</div>
+        <div class="text-sm text-gray-600">Communities Impacted</div>
+      </div>
+    `;
   });
 }
 
-// Event countdown
-function startCountdown() {
-  const upcoming = currentData.events.filter(e => e.status === 'upcoming')
-    .sort((a, b) => new Date(a.date) - new Date(b.date))[0];
-  
-  if (!upcoming) return;
+function renderImpactCounters() {
+  const totalPeople = state.projects.reduce((sum, p) => sum + (p.impact?.people || 0), 0);
+  const totalRevenue = state.projects.reduce((sum, p) => {
+    const raw = p.impact?.revenue || '0';
+    const num = parseInt(String(raw).replace(/[^0-9]/g, ''), 10);
+    return sum + (Number.isNaN(num) ? 0 : num);
+  }, 0);
+  const running = state.projects.filter(p => p.status === 'Ongoing').length;
 
-  currentEventCountdown = setInterval(() => {
-    const now = new Date().getTime();
-    const eventDate = new Date(upcoming.date).getTime();
-    const distance = eventDate - now;
-
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    const countdownEl = document.querySelector('.event-countdown');
-    if (countdownEl) {
-      countdownEl.innerHTML = `
-        <h3 class="text-2xl font-bold text-yellow-500">${upcoming.title}</h3>
-        <div class="countdown-section mt-6">
-          <div class="countdown-card">
-            <div class="counter text-3xl md:text-4xl" data-target="${days}">${days}d</div>
-            <div class="text-sm opacity-75 mt-1">Days</div>
-          </div>
-          <div class="countdown-card">
-            <div class="counter text-3xl md:text-4xl" data-target="${hours}">${hours}h</div>
-            <div class="text-sm opacity-75 mt-1">Hours</div>
-          </div>
-          <div class="countdown-card">
-            <div class="counter text-3xl md:text-4xl" data-target="${minutes}">${minutes}m</div>
-            <div class="text-sm opacity-75 mt-1">Minutes</div>
-          </div>
-          <div class="countdown-card">
-            <div class="counter text-3xl md:text-4xl" data-target="${seconds}">${seconds}s</div>
-            <div class="text-sm opacity-75 mt-1">Seconds</div>
-          </div>
-        </div>
-      `;
-      animateCounter(document.querySelector('.counter'));
-    }
-
-    if (distance < 0) {
-      clearInterval(currentEventCountdown);
-    }
-  }, 1000);
-}
-
-// Project filters and modal
-function initProjectFilters() {
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  const projectGrid = document.querySelector('.project-grid');
-
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      
-      const category = btn.dataset.filter;
-      renderProjects(category);
-    });
+  document.querySelectorAll('[data-impact-counters]').forEach(container => {
+    container.innerHTML = `
+      <div class="text-center">
+        <div class="counter text-4xl md:text-5xl font-black" data-target="${totalPeople}">${totalPeople.toLocaleString()}</div>
+        <div class="text-sm text-gray-600">People Impacted</div>
+      </div>
+      <div class="text-center">
+        <div class="counter text-4xl md:text-5xl font-black" data-target="${Math.floor(totalRevenue / 1000)}">${Math.floor(totalRevenue / 1000).toLocaleString()}</div>
+        <div class="text-sm text-gray-600">Funds Raised (KES '000)</div>
+      </div>
+      <div class="text-center">
+        <div class="counter text-4xl md:text-5xl font-black" data-target="${running}">${running}</div>
+        <div class="text-sm text-gray-600">Projects Running</div>
+      </div>
+    `;
   });
 }
 
-function renderProjects(category = 'All') {
-  const filtered = category === 'All' 
-    ? currentData.projects 
-    : currentData.projects.filter(p => p.category === category);
-  
-  const container = document.querySelector('.project-grid') || document.querySelector('.featured-projects');
+function renderFeaturedProjects() {
+  const container = document.querySelector('[data-featured-projects]');
   if (!container) return;
+  const featured = state.projects.slice(0, 6);
+  container.innerHTML = featured.map(project => `
+    <div class="swiper-slide">${projectCard(project)}</div>
+  `).join('');
+  bindProjectCards();
+}
 
-  container.innerHTML = filtered.map(project => `
-    <article class="project-card cursor-pointer" data-project-id="${project.id}">
-      <div class="project-image" style="background-image: url(${project.images[0] || 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400'})"></div>
-      <div class="p-8">
-        <span class="status-badge px-3 py-1 rounded-full text-sm font-semibold">${project.status}</span>
-        <h3 class="text-2xl font-bold mt-4 mb-2">${project.name}</h3>
-        <p class="text-gray-600 mb-4">${project.shortDescription}</p>
-        <div class="flex items-center justify-between">
-          <div class="text-2xl font-bold text-yellow-500">${project.impact.people.toLocaleString()}</div>
-          <span class="text-sm font-medium text-gray-500">People Impacted</span>
+function renderProjectGrid(category) {
+  const container = document.querySelector('[data-project-grid]');
+  if (!container) return;
+  const filtered = category === 'All' ? state.projects : state.projects.filter(p => p.category === category);
+  container.innerHTML = filtered.map(projectCard).join('');
+  bindProjectCards();
+  renderImpactChart();
+}
+
+function projectCard(project) {
+  const image = project.images && project.images[0] ? project.images[0] : 'assets/images/project-1.jpg';
+  const statusClass = project.status === 'Completed' ? 'completed' : 'ongoing';
+  return `
+    <article class="card overflow-hidden cursor-pointer" data-project-id="${project.id}">
+      <div class="h-56 bg-cover bg-center" style="background-image: url('${image}')"></div>
+      <div class="p-6">
+        <span class="badge ${statusClass}">${project.status}</span>
+        <h3 class="text-xl font-bold mt-3">${project.name}</h3>
+        <p class="text-gray-600 mt-2">${project.shortDescription}</p>
+        <div class="mt-4 flex items-center justify-between">
+          <div class="text-2xl font-bold text-yellow-500">${(project.impact?.people || 0).toLocaleString()}</div>
+          <div class="text-sm text-gray-500">People Impacted</div>
         </div>
       </div>
     </article>
-  `).join('');
+  `;
+}
 
-  // Bind modals
-  document.querySelectorAll('.project-card').forEach(card => {
+function bindProjectCards() {
+  document.querySelectorAll('[data-project-id]').forEach(card => {
     card.addEventListener('click', () => openProjectModal(card.dataset.projectId));
   });
 }
 
 function openProjectModal(projectId) {
-  const project = currentData.projects.find(p => p.id === projectId);
+  const project = state.projects.find(p => p.id === projectId);
   if (!project) return;
 
+  const gallery = (project.images || []).map(img => `<img src="${img}" alt="${project.name}" class="w-full rounded-xl">`).join('');
+  const testimonials = (project.testimonials || []).map(t => `
+    <blockquote class="bg-gray-100 p-4 rounded-xl text-gray-700">
+      "${t.quote}"
+      <cite class="block mt-2 font-semibold text-gray-900">${t.name}</cite>
+    </blockquote>
+  `).join('');
+
   document.body.insertAdjacentHTML('beforeend', `
-    <div class="modal-overlay" id="project-modal" role="dialog" aria-labelledby="modal-title" tabindex="-1">
+    <div class="modal-overlay" id="project-modal" role="dialog" aria-labelledby="project-title" tabindex="-1">
       <div class="modal-content">
         <div class="p-8">
-          <button class="float-right text-2xl" onclick="closeModal()" aria-label="Close">&times;</button>
-          <h2 id="modal-title" class="text-4xl font-bold mb-8">${project.name}</h2>
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div>
-              <img src="${project.images[0]}" alt="${project.name}" class="w-full rounded-2xl shadow-2xl">
-              <div class="mt-6 space-y-3">
-                ${project.testimonials.map(t => `
-                  <blockquote class="italic text-gray-700 p-4 bg-gray-100 rounded-xl">
-                    "${t.quote}"
-                    <cite class="not-italic font-semibold block mt-2">${t.name}</cite>
-                  </blockquote>
-                `).join('')}
-              </div>
+          <button class="float-right text-2xl" aria-label="Close" onclick="closeModal()">&times;</button>
+          <h2 id="project-title" class="text-3xl font-bold">${project.name}</h2>
+          <div class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="space-y-4">
+              ${gallery || ''}
+              ${testimonials ? `<div class="space-y-3">${testimonials}</div>` : ''}
             </div>
             <div>
-              <h4 class="text-2xl font-bold mb-4">The Challenge</h4>
-              <p class="text-lg mb-8">${project.problem}</p>
-              <h4 class="text-2xl font-bold mb-4">Our Solution</h4>
-              <p class="text-lg mb-8">${project.solution}</p>
-              <div class="grid grid-cols-2 gap-4 mb-8">
-                <div class="text-center p-4 bg-yellow-50 rounded-xl">
-                  <div class="text-3xl font-bold text-yellow-600">${project.impact.people.toLocaleString()}</div>
-                  <div>People Reached</div>
+              <h3 class="text-xl font-bold">The Challenge</h3>
+              <p class="text-gray-700 mt-2">${project.problem || ''}</p>
+              <h3 class="text-xl font-bold mt-6">Our Solution</h3>
+              <p class="text-gray-700 mt-2">${project.solution || ''}</p>
+              <div class="grid grid-cols-2 gap-4 mt-6">
+                <div class="countdown-card">
+                  <div class="text-2xl font-bold text-yellow-600">${(project.impact?.people || 0).toLocaleString()}</div>
+                  <div class="text-sm text-gray-600">People Reached</div>
                 </div>
-                <div class="text-center p-4 bg-blue-50 rounded-xl">
-                  <div class="text-3xl font-bold text-blue-600">KES ${project.impact.revenue}</div>
-                  <div>Revenue Generated</div>
+                <div class="countdown-card">
+                  <div class="text-2xl font-bold text-yellow-600">${project.impact?.revenue || 'KES 0'}</div>
+                  <div class="text-sm text-gray-600">Revenue Generated</div>
                 </div>
               </div>
             </div>
@@ -385,95 +369,308 @@ function openProjectModal(projectId) {
     </div>
   `);
 
-  document.getElementById('project-modal').focus();
+  document.getElementById('project-modal')?.focus();
 }
 
 function closeModal() {
   document.getElementById('project-modal')?.remove();
 }
 
-// Page-specific renders
-function renderFeaturedProjects() {
-  const featured = currentData.projects.slice(0, 6);
-  // Already handled by renderProjects('All') for featured
-  renderProjects();
-}
-
-function renderTeamSpotlight() {
-  const spotlight = currentData.team.filter(m => m.era === 'current');
-  const container = document.querySelector('.team-spotlight-images');
-  if (container) {
-    container.innerHTML = spotlight.map(member => `
-      <div class="team-member" style="background-image: url(${member.photo})" 
-           alt="${member.name}" title="${member.name} - ${member.role}">
-      </div>
-    `).join('');
-  }
-}
-
-function renderPartners() {
-  const container = document.querySelector('.partners-strip');
-  if (container) {
-    container.innerHTML = currentData.partners.map(p => `
-      <a href="${p.website}" target="_blank" class="partner-logo mx-8">
-        <img src="${p.logo}" alt="${p.name}" class="h-16 w-auto">
-      </a>
-    `).join('');
-  }
-}
-
-function renderEventCountdown() {
-  // Countdown already rendered via startCountdown()
-}
-
-function renderLeadership() {
-  const executives = currentData.team.filter(m => m.era === 'current' && m.type === 'executive');
-  const container = document.querySelector('.leadership-grid');
-  if (container) {
-    container.innerHTML = executives.map(member => `
-      <div class="text-center group">
-        <div class="w-48 h-48 mx-auto rounded-full overflow-hidden shadow-2xl group-hover:scale-110 transition-transform mb-6"
-             style="background-image: url(${member.photo})">
-        </div>
-        <h4 class="text-2xl font-bold mb-2">${member.name}</h4>
-        <p class="text-yellow-500 font-semibold">${member.role}</p>
-        ${member.linkedin ? `<a href="${member.linkedin}" class="text-sm text-gray-500 hover:text-yellow-500 mt-2 inline-block">LinkedIn</a>` : ''}
-      </div>
-    `).join('');
-  }
-}
-
-// Keyboard accessibility
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') closeModal();
 });
 
-// Skip to content
-document.querySelector('.skip-link')?.addEventListener('click', (e) => {
-  e.preventDefault();
-  document.querySelector('#main-content')?.focus();
-});
+function initProjectFilters() {
+  const buttons = document.querySelectorAll('[data-filter]');
+  if (!buttons.length) return;
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('bg-yellow-400', 'text-black'));
+      btn.classList.add('bg-yellow-400', 'text-black');
+      renderProjectGrid(btn.dataset.filter);
+    });
+  });
+}
 
-// Stats from projects (global)
-document.querySelectorAll('.stats-bar').forEach(bar => {
-  const totalPeople = currentData.projects.reduce((sum, p) => sum + p.impact.people, 0);
-  const totalProjects = currentData.projects.length;
-  const totalRevenue = currentData.projects.reduce((sum, p) => sum + parseInt(p.impact.revenue.replace(/[^0-9]/g, '')), 0);
-  
-  bar.innerHTML = `
-    <div class="text-center">
-      <div class="counter text-4xl md:text-6xl font-black" data-target="${totalProjects}">${totalProjects}</div>
-      <div class="text-sm opacity-75">Projects</div>
+function renderImpactChart() {
+  const canvas = document.querySelector('[data-impact-chart]');
+  if (!canvas || !window.Chart) return;
+
+  const labels = state.projects.map(p => p.name.slice(0, 14));
+  const values = state.projects.map(p => p.impact?.people || 0);
+
+  new Chart(canvas, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: 'People Impacted',
+        data: values,
+        backgroundColor: 'rgba(255, 215, 0, 0.7)',
+        borderColor: '#FFD700',
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true } }
+    }
+  });
+}
+
+function renderTeamSpotlight() {
+  const container = document.querySelector('[data-team-spotlight]');
+  if (!container) return;
+  const current = state.team.filter(m => m.era === 'current');
+  container.innerHTML = current.map(member => `
+    <div class="swiper-slide text-center">
+      <div class="w-28 h-28 md:w-32 md:h-32 mx-auto rounded-full bg-cover bg-center" style="background-image: url('${member.photo}')" title="${member.name}"></div>
+      <p class="mt-3 text-sm font-semibold">${member.name}</p>
     </div>
-    <div class="text-center">
-      <div class="counter text-4xl md:text-6xl font-black" data-target="${totalPeople}">${totalPeople.toLocaleString()}</div>
-      <div class="text-sm opacity-75">People Impacted</div>
+  `).join('');
+}
+
+function renderTeamPage() {
+  renderLeadership();
+  renderDepartments();
+  renderMemberSpotlight();
+  renderPastLeadership();
+}
+
+function renderLeadership() {
+  const container = document.querySelector('[data-leadership]');
+  if (!container) return;
+  const execs = state.team.filter(m => m.era === 'current' && m.type === 'executive');
+  container.innerHTML = execs.map(member => `
+    <div class="card p-6 text-center">
+      <img src="${member.photo}" alt="${member.name}" class="w-32 h-32 rounded-full mx-auto object-cover">
+      <h3 class="text-xl font-bold mt-4">${member.name}</h3>
+      <p class="text-yellow-600 font-semibold">${member.role}</p>
+      <p class="text-sm text-gray-600 mt-3">${member.bio || ''}</p>
+      ${member.linkedin ? `<a class="text-sm text-gray-600 mt-3 inline-block" href="${member.linkedin}" target="_blank" rel="noopener">LinkedIn</a>` : ''}
     </div>
-    <div class="text-center">
-      <div class="counter text-4xl md:text-6xl font-black" data-target="${Math.floor(totalRevenue / 1000)}">KES ${Math.floor(totalRevenue / 1000).toLocaleString()}</div>
-      <div class="text-sm opacity-75 mt-1">Revenue (Ksh 000s)</div>
+  `).join('');
+}
+
+function renderDepartments() {
+  const container = document.querySelector('[data-departments]');
+  if (!container) return;
+  const departments = state.team.filter(m => m.era === 'current' && m.type === 'department');
+  const grouped = departments.reduce((acc, member) => {
+    const key = member.department || 'Department';
+    acc[key] = acc[key] || [];
+    acc[key].push(member);
+    return acc;
+  }, {});
+
+  container.innerHTML = Object.entries(grouped).map(([name, members]) => `
+    <div class="card p-6">
+      <h3 class="text-xl font-bold">${name}</h3>
+      <div class="mt-4 space-y-3">
+        ${members.map(m => `
+          <div class="flex items-center gap-3">
+            <img src="${m.photo}" alt="${m.name}" class="w-12 h-12 rounded-full object-cover">
+            <div>
+              <div class="font-semibold">${m.name}</div>
+              <div class="text-sm text-gray-600">${m.role}</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderMemberSpotlight() {
+  const container = document.querySelector('[data-member-spotlight]');
+  if (!container) return;
+  const current = state.team.filter(m => m.era === 'current');
+  container.innerHTML = current.map(member => `
+    <div class="swiper-slide text-center">
+      <img src="${member.photo}" alt="${member.name}" class="w-20 h-20 rounded-full mx-auto object-cover">
+      <p class="mt-2 text-sm font-semibold">${member.name}</p>
+    </div>
+  `).join('');
+}
+
+function renderPastLeadership() {
+  const container = document.querySelector('[data-past-leadership]');
+  if (!container) return;
+  const past = state.team.filter(m => m.era === 'past');
+  const grouped = past.reduce((acc, member) => {
+    const key = member.yearServed || 'Past';
+    acc[key] = acc[key] || [];
+    acc[key].push(member);
+    return acc;
+  }, {});
+
+  container.innerHTML = Object.entries(grouped).map(([year, members]) => `
+    <div class="card p-6">
+      <h3 class="text-lg font-bold">${year}</h3>
+      <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        ${members.map(m => `
+          <div class="flex items-center gap-3">
+            <img src="${m.photo}" alt="${m.name}" class="w-12 h-12 rounded-full object-cover">
+            <div>
+              <div class="font-semibold">${m.name}</div>
+              <div class="text-sm text-gray-600">${m.role}</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderPartnersStrip() {
+  const container = document.querySelector('[data-partners-strip]');
+  if (!container) return;
+  container.innerHTML = state.partners.map(p => `
+    <a class="partner-logo" href="${p.website || '#'}" target="_blank" rel="noopener">
+      <img src="${p.logo}" alt="${p.name}" class="h-12 md:h-14">
+    </a>
+  `).join('');
+}
+
+function renderPartnersGrid() {
+  const container = document.querySelector('[data-partners-grid]');
+  if (!container) return;
+  container.innerHTML = state.partners.map(p => `
+    <div class="card p-6 text-center">
+      <img src="${p.logo}" alt="${p.name}" class="h-14 mx-auto">
+      <h4 class="font-bold mt-3">${p.name}</h4>
+      <span class="badge ${p.tier.toLowerCase()}">${p.tier}</span>
+    </div>
+  `).join('');
+}
+
+function renderPartnerTestimonials() {
+  const container = document.querySelector('[data-partner-testimonials]');
+  if (!container) return;
+  container.innerHTML = state.partners.map(p => `
+    <blockquote class="card p-6">
+      <p class="text-gray-700">"${p.testimonial}"</p>
+      <cite class="block mt-3 font-semibold">${p.name}</cite>
+    </blockquote>
+  `).join('');
+}
+
+function renderEvents() {
+  const upcomingContainer = document.querySelector('[data-events-upcoming]');
+  const pastContainer = document.querySelector('[data-events-past]');
+  if (!upcomingContainer && !pastContainer) return;
+
+  const upcoming = state.events.filter(e => e.status === 'upcoming').sort((a,b) => new Date(a.date) - new Date(b.date));
+  const past = state.events.filter(e => e.status === 'past').sort((a,b) => new Date(b.date) - new Date(a.date));
+
+  if (upcomingContainer) {
+    upcomingContainer.innerHTML = upcoming.map(eventCard).join('');
+  }
+
+  if (pastContainer) {
+    pastContainer.innerHTML = past.map((evt, idx) => pastEventCard(evt, idx)).join('');
+  }
+}
+
+function eventCard(evt) {
+  const date = new Date(evt.date).toLocaleDateString();
+  return `
+    <div class="card p-6">
+      <div class="flex items-center justify-between">
+        <h3 class="text-xl font-bold">${evt.title}</h3>
+        <span class="text-sm text-gray-500">${date}</span>
+      </div>
+      <p class="text-gray-600 mt-2">${evt.description}</p>
+      <div class="text-sm text-gray-500 mt-2">${evt.venue}</div>
+      ${evt.registrationLink ? `<a class="btn-outline mt-4" href="${evt.registrationLink}" target="_blank" rel="noopener">Register</a>` : ''}
     </div>
   `;
-});
+}
 
-console.log('Enactus JOOUST loaded successfully! 🚀');
+function pastEventCard(evt, idx) {
+  const date = new Date(evt.date).toLocaleDateString();
+  const gallery = (evt.gallery || []).map(img => `
+    <div class="swiper-slide"><img src="${img}" alt="${evt.title}" class="w-full h-48 object-cover rounded-xl"></div>
+  `).join('');
+
+  return `
+    <div class="card p-6">
+      <div class="flex items-center justify-between">
+        <h3 class="text-xl font-bold">${evt.title}</h3>
+        <span class="text-sm text-gray-500">${date}</span>
+      </div>
+      <p class="text-gray-600 mt-2">${evt.description}</p>
+      ${gallery ? `
+        <div class="swiper event-gallery mt-4">
+          <div class="swiper-wrapper">${gallery}</div>
+          <div class="swiper-pagination event-gallery-pagination-${idx}"></div>
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
+
+function startCountdown() {
+  const container = document.querySelector('[data-event-countdown]');
+  if (!container) return;
+
+  const upcoming = state.events.filter(e => e.status === 'upcoming')
+    .sort((a,b) => new Date(a.date) - new Date(b.date))[0];
+
+  if (!upcoming) {
+    container.innerHTML = '<p class="text-gray-600">No upcoming events at the moment.</p>';
+    return;
+  }
+
+  const tick = () => {
+    const now = new Date().getTime();
+    const eventDate = new Date(upcoming.date).getTime();
+    const distance = eventDate - now;
+
+    if (distance <= 0) {
+      container.innerHTML = `<h3 class="text-xl font-bold">${upcoming.title}</h3><p class="mt-2 text-gray-600">Happening now.</p>`;
+      return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    container.innerHTML = `
+      <h3 class="text-2xl font-bold">${upcoming.title}</h3>
+      <p class="text-gray-600 mt-1">${upcoming.venue}</p>
+      <div class="countdown-grid mt-4">
+        <div class="countdown-card"><div class="text-2xl font-bold">${days}</div><div class="text-xs text-gray-600">Days</div></div>
+        <div class="countdown-card"><div class="text-2xl font-bold">${hours}</div><div class="text-xs text-gray-600">Hours</div></div>
+        <div class="countdown-card"><div class="text-2xl font-bold">${minutes}</div><div class="text-xs text-gray-600">Minutes</div></div>
+        <div class="countdown-card"><div class="text-2xl font-bold">${seconds}</div><div class="text-xs text-gray-600">Seconds</div></div>
+      </div>
+    `;
+  };
+
+  tick();
+  setInterval(tick, 1000);
+}
+
+function renderJoinProjects() {
+  const container = document.querySelector('[data-join-projects]');
+  if (!container) return;
+  container.innerHTML = state.projects.slice(0, 5).map(p => `
+    <li class="flex items-center justify-between border-b border-gray-200 py-2">
+      <span class="font-medium">${p.name}</span>
+      <span class="text-sm text-gray-500">${p.category}</span>
+    </li>
+  `).join('');
+}
+
+// Skip link focus support
+const skipLink = document.querySelector('.skip-link');
+if (skipLink) {
+  skipLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.querySelector('#main-content');
+    if (target) target.focus();
+  });
+}

@@ -1,4 +1,179 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home – Enactus JOOUST</title>
+  <meta name="description" content="Enactus JOOUST empowers students through entrepreneurship, building sustainable community impact projects.">
+  <meta property="og:title" content="Home – Enactus JOOUST">
+  <meta property="og:description" content="Student-led entrepreneurship projects creating measurable impact across communities.">
+  <meta property="og:image" content="assets/images/og.jpg">
+  <link rel="icon" href="assets/images/favicon.ico">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="bg-pattern">
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  <nav class="fixed top-0 inset-x-0 z-40 bg-white/80 backdrop-blur">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="index.html" class="font-black text-xl">Enactus JOOUST</a>
+      <div class="hidden md:flex items-center gap-6">
+        <a class="nav-link text-sm" href="index.html">Home</a>
+        <a class="nav-link text-sm" href="about.html">About</a>
+        <a class="nav-link text-sm" href="projects.html">Projects</a>
+        <a class="nav-link text-sm" href="events.html">Events</a>
+        <a class="nav-link text-sm" href="team.html">Team</a>
+        <a class="nav-link text-sm" href="join.html">Join & Contact</a>
+      </div>
+      <button class="hamburger md:hidden" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu md:hidden bg-white border-t">
+      <div class="px-4 py-4 flex flex-col gap-3">
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="about.html">About</a>
+        <a class="nav-link" href="projects.html">Projects</a>
+        <a class="nav-link" href="events.html">Events</a>
+        <a class="nav-link" href="team.html">Team</a>
+        <a class="nav-link" href="join.html">Join & Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main-content" tabindex="-1" class="pt-20">
+    <section class="relative">
+      <div class="swiper swiper-hero">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <div class="h-[85vh] bg-cover bg-center" style="background-image: url('assets/images/hero-1.jpg')">
+              <div class="h-full hero-overlay flex items-center">
+                <div class="max-w-6xl mx-auto px-4 text-white">
+                  <h1 class="text-4xl md:text-6xl font-black">Enactus JOOUST</h1>
+                  <p class="mt-4 text-lg md:text-2xl">Empowering Students Through Entrepreneurship</p>
+                  <div class="mt-6 flex flex-wrap gap-4">
+                    <a class="btn-primary" href="join.html">Join Us</a>
+                    <a class="btn-outline bg-white" href="projects.html">View Projects</a>
+                    <a class="btn-outline bg-white" href="join.html#donate">Donate</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="h-[85vh] bg-cover bg-center" style="background-image: url('assets/images/hero-2.jpg')">
+              <div class="h-full hero-overlay flex items-center">
+                <div class="max-w-6xl mx-auto px-4 text-white">
+                  <h2 class="text-4xl md:text-6xl font-black">Innovation With Impact</h2>
+                  <p class="mt-4 text-lg md:text-2xl">Building ventures that serve communities and scale solutions.</p>
+                  <div class="mt-6 flex flex-wrap gap-4">
+                    <a class="btn-primary" href="projects.html">Explore Impact</a>
+                    <a class="btn-outline bg-white" href="events.html">Upcoming Events</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="h-[85vh] bg-cover bg-center" style="background-image: url('assets/images/hero-3.jpg')">
+              <div class="h-full hero-overlay flex items-center">
+                <div class="max-w-6xl mx-auto px-4 text-white">
+                  <h2 class="text-4xl md:text-6xl font-black">Partner With Us</h2>
+                  <p class="mt-4 text-lg md:text-2xl">Join a network of innovators, mentors, and sponsors.</p>
+                  <div class="mt-6 flex flex-wrap gap-4">
+                    <a class="btn-primary" href="join.html#partner">Become a Partner</a>
+                    <a class="btn-outline bg-white" href="about.html">Learn More</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 py-12" data-aos="fade-up">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6" data-stats-bar></div>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 py-12" data-aos="fade-up">
+      <div class="flex items-center justify-between flex-wrap gap-4">
+        <h2 class="section-title">Featured Projects</h2>
+        <a class="btn-outline" href="projects.html">All Projects</a>
+      </div>
+      <div class="swiper projects-swiper mt-6">
+        <div class="swiper-wrapper" data-featured-projects></div>
+        <div class="projects-pagination mt-4"></div>
+      </div>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 py-12" data-aos="fade-up">
+      <div class="flex items-center justify-between flex-wrap gap-4">
+        <h2 class="section-title">Team Spotlight</h2>
+        <a class="btn-outline" href="team.html">Meet the Team</a>
+      </div>
+      <div class="swiper team-spotlight-swiper mt-6">
+        <div class="swiper-wrapper" data-team-spotlight></div>
+      </div>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 py-12" data-aos="fade-up">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="card p-6">
+          <h2 class="section-title">Next Event</h2>
+          <div class="mt-4" data-event-countdown></div>
+        </div>
+        <div class="card p-6 bg-black text-white">
+          <h2 class="section-title">Why Enactus</h2>
+          <ul class="mt-4 space-y-3 text-sm text-white/80">
+            <li>Student-led ventures with real community outcomes.</li>
+            <li>Mentorship from industry leaders and alumni.</li>
+            <li>Access to competitions, grants, and partner networks.</li>
+          </ul>
+          <a class="btn-primary mt-6" href="join.html">Join the Movement</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 py-12" data-aos="fade-up">
+      <h2 class="section-title">Partners & Sponsors</h2>
+      <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-6" data-partners-strip></div>
+    </section>
+  </main>
+
+  <footer class="bg-white border-t">
+    <div class="max-w-6xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div>
+        <h3 class="font-bold text-lg">Enactus JOOUST</h3>
+        <p class="text-sm text-gray-600 mt-2">Empowering students through entrepreneurship and sustainable impact.</p>
+      </div>
+      <div>
+        <h4 class="font-semibold">Quick Links</h4>
+        <div class="mt-3 flex flex-col gap-2 text-sm">
+          <a class="footer-link" href="projects.html">Projects</a>
+          <a class="footer-link" href="events.html">Events</a>
+          <a class="footer-link" href="join.html#donate">Donate</a>
+        </div>
+      </div>
+      <div>
+        <h4 class="font-semibold">Contact</h4>
+        <p class="text-sm text-gray-600 mt-2">Bondo, Siaya County</p>
+        <p class="text-sm text-gray-600">Email: enactusjooust@gmail.com</p>
+        <p class="text-sm text-gray-600">Phone: +254 700 000 000</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

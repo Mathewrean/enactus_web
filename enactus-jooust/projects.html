@@ -1,5 +1,108 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects – Enactus JOOUST</title>
+  <meta name="description" content="Explore Enactus JOOUST projects, impact metrics, and ongoing innovations.">
+  <meta property="og:title" content="Projects – Enactus JOOUST">
+  <meta property="og:description" content="Project grid, impact dashboard, and detailed success stories.">
+  <meta property="og:image" content="assets/images/og.jpg">
+  <link rel="icon" href="assets/images/favicon.ico">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="bg-pattern">
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  <nav class="fixed top-0 inset-x-0 z-40 bg-white/80 backdrop-blur">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="index.html" class="font-black text-xl">Enactus JOOUST</a>
+      <div class="hidden md:flex items-center gap-6">
+        <a class="nav-link text-sm" href="index.html">Home</a>
+        <a class="nav-link text-sm" href="about.html">About</a>
+        <a class="nav-link text-sm" href="projects.html">Projects</a>
+        <a class="nav-link text-sm" href="events.html">Events</a>
+        <a class="nav-link text-sm" href="team.html">Team</a>
+        <a class="nav-link text-sm" href="join.html">Join & Contact</a>
+      </div>
+      <button class="hamburger md:hidden" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu md:hidden bg-white border-t">
+      <div class="px-4 py-4 flex flex-col gap-3">
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="about.html">About</a>
+        <a class="nav-link" href="projects.html">Projects</a>
+        <a class="nav-link" href="events.html">Events</a>
+        <a class="nav-link" href="team.html">Team</a>
+        <a class="nav-link" href="join.html">Join & Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main-content" tabindex="-1" class="pt-24">
+    <section class="max-w-6xl mx-auto px-4" data-aos="fade-up">
+      <h1 class="text-4xl md:text-5xl font-black">Our Projects</h1>
+      <p class="mt-3 text-lg text-gray-700">Discover the ventures that are changing lives across agriculture, education, technology, and the environment.</p>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 py-8" data-aos="fade-up">
+      <div class="flex flex-wrap gap-3">
+        <button class="px-5 py-2 rounded-full bg-yellow-400 text-black font-semibold" data-filter="All">All</button>
+        <button class="px-5 py-2 rounded-full bg-white border" data-filter="Agriculture">Agriculture</button>
+        <button class="px-5 py-2 rounded-full bg-white border" data-filter="Education">Education</button>
+        <button class="px-5 py-2 rounded-full bg-white border" data-filter="Tech">Tech</button>
+        <button class="px-5 py-2 rounded-full bg-white border" data-filter="Environment">Environment</button>
+      </div>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 pb-12" data-aos="fade-up">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-project-grid></div>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 pb-16" data-aos="fade-up">
+      <div class="card p-6">
+        <div class="flex items-center justify-between flex-wrap gap-4">
+          <h2 class="section-title">Impact Dashboard</h2>
+          <p class="text-gray-600">Key metrics from our current portfolio.</p>
+        </div>
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6" data-impact-counters></div>
+        <div class="mt-8">
+          <canvas data-impact-chart height="120"></canvas>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-white border-t">
+    <div class="max-w-6xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div>
+        <h3 class="font-bold text-lg">Enactus JOOUST</h3>
+        <p class="text-sm text-gray-600 mt-2">Empowering students through entrepreneurship and sustainable impact.</p>
+      </div>
+      <div>
+        <h4 class="font-semibold">Quick Links</h4>
+        <div class="mt-3 flex flex-col gap-2 text-sm">
+          <a class="footer-link" href="projects.html">Projects</a>
+          <a class="footer-link" href="events.html">Events</a>
+          <a class="footer-link" href="join.html#donate">Donate</a>
+        </div>
+      </div>
+      <div>
+        <h4 class="font-semibold">Contact</h4>
+        <p class="text-sm text-gray-600 mt-2">Bondo, Siaya County</p>
+        <p class="text-sm text-gray-600">Email: enactusjooust@gmail.com</p>
+        <p class="text-sm text-gray-600">Phone: +254 700 000 000</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

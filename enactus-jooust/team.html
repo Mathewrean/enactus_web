@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Events – Enactus JOOUST</title>
-  <meta name="description" content="Upcoming and past Enactus JOOUST events, workshops, and showcases.">
-  <meta property="og:title" content="Events – Enactus JOOUST">
-  <meta property="og:description" content="Live countdowns to upcoming events and recaps from past activities.">
+  <title>Team – Enactus JOOUST</title>
+  <meta name="description" content="Meet the Enactus JOOUST leadership, departments, and alumni leaders.">
+  <meta property="og:title" content="Team – Enactus JOOUST">
+  <meta property="og:description" content="Current leadership, departments, member spotlight, and past leadership timeline.">
   <meta property="og:image" content="assets/images/og.jpg">
   <link rel="icon" href="assets/images/favicon.ico">
 
@@ -45,27 +45,35 @@
     </div>
   </nav>
 
-  <main id="main-content" tabindex="-1" class="pt-24">
+  <main id="main-content" tabindex="-1" class="pt-24" data-team-page>
     <section class="max-w-6xl mx-auto px-4" data-aos="fade-up">
-      <h1 class="text-4xl md:text-5xl font-black">Events</h1>
-      <p class="mt-3 text-lg text-gray-700">Join our showcases, workshops, and community engagements.</p>
+      <h1 class="text-4xl md:text-5xl font-black">Our Team</h1>
+      <p class="mt-3 text-lg text-gray-700">Meet the leaders, departments, and alumni who power our impact.</p>
     </section>
 
     <section class="max-w-6xl mx-auto px-4 py-10" data-aos="fade-up">
-      <div class="card p-6">
-        <h2 class="section-title">Next Event Countdown</h2>
-        <div class="mt-4" data-event-countdown></div>
-      </div>
+      <h2 class="section-title">Current Leadership</h2>
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-leadership></div>
     </section>
 
     <section class="max-w-6xl mx-auto px-4 pb-12" data-aos="fade-up">
-      <h2 class="section-title">Upcoming Events</h2>
-      <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6" data-events-upcoming></div>
+      <h2 class="section-title">Departments</h2>
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6" data-departments></div>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-4 pb-12" data-aos="fade-up">
+      <div class="flex items-center justify-between flex-wrap gap-4">
+        <h2 class="section-title">Member Spotlight</h2>
+        <p class="text-gray-600">Celebrating our current members.</p>
+      </div>
+      <div class="swiper team-spotlight-swiper mt-6">
+        <div class="swiper-wrapper" data-member-spotlight></div>
+      </div>
     </section>
 
     <section class="max-w-6xl mx-auto px-4 pb-16" data-aos="fade-up">
-      <h2 class="section-title">Past Events</h2>
-      <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6" data-events-past></div>
+      <h2 class="section-title">Past Leadership</h2>
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6" data-past-leadership></div>
     </section>
   </main>
 

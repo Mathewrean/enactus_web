@@ -7,7 +7,7 @@
     "status": "upcoming",
     "description": "Celebrating our projects with demos, awards, and networking.",
     "registrationLink": "https://forms.gle/demo123",
-    "gallery": ["https://images.unsplash.com/photo-1517457373958-b7bdd4587206?w=600"]
+    "gallery": []
   },
   {
     "id": "evt-002",
@@ -47,7 +47,9 @@
     "status": "past",
     "description": "Advanced to semis with Smart Farming project.",
     "registrationLink": "",
-    "gallery": ["https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=600"]
+    "gallery": [
+      "assets/images/event-3.jpg"
+    ]
   },
   {
     "id": "evt-006",
@@ -57,7 +59,9 @@
     "status": "past",
     "description": "75 girls receive certificates.",
     "registrationLink": "",
-    "gallery": ["https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600"]
+    "gallery": [
+      "assets/images/event-1.jpg"
+    ]
   },
   {
     "id": "evt-007",
@@ -67,6 +71,8 @@
     "status": "past",
     "description": "First 100 briquettes sold to community.",
     "registrationLink": "",
-    "gallery": ["https://images.unsplash.com/photo-1558618047-3c8c76bd4b8a?w=600"]
+    "gallery": [
+      "assets/images/event-2.jpg"
+    ]
   }
 ]
