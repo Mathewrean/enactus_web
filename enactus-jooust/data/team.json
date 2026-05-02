@@ -6,7 +6,7 @@
     "type": "executive",
     "era": "current",
     "yearServed": "2025-2026",
-    "photo": "enactus-jooust/assets/images/signal-2026-05-01-133541_004.jpeg",
+    "photo": "assets/images/signal-2026-05-01-133541_004.jpeg",
     "bio": "4th year Computer Science. Passionate about social tech solutions.",
     "linkedin": "https://linkedin.com/in/george-owala",
     "department": "Executive"
@@ -18,7 +18,7 @@
     "type": "executive",
     "era": "current",
     "yearServed": "2025-2026",
-    "photo": "enactus-jooust/assets/images/signal-2026-05-01-133541_003.jpeg",
+    "photo": "assets/images/signal-2026-05-01-133541_003.jpeg",
     "bio": "Business major leading partnership development.",
     "linkedin": "https://linkedin.com/in/elvirah-bosibori",
     "department": "Executive"
@@ -30,7 +30,7 @@
     "type": "executive",
     "era": "current",
     "yearServed": "2025-2026",
-    "photo": "enactus-jooust/assets/images/davy.jpeg",
+    "photo": "assets/images/davy.jpeg",
     "bio": "Engineering student overseeing project execution.",
     "linkedin": null,
     "department": "Executive"
@@ -42,7 +42,7 @@
     "type": "executive",
     "era": "current",
     "yearServed": "2025-2026",
-    "photo": "enactus-jooust/assets/images/signal-2026-05-01-133541_005.jpeg",
+    "photo": "assets/images/signal-2026-05-01-133541_005.jpeg",
     "bio": "Tech enthusiast, supporting project logistics.",
     "linkedin": "",
     "department": "Executive"
@@ -54,7 +54,7 @@
     "type": "executive",
     "era": "current",
     "yearServed": "2025-2026",
-    "photo": "enactus-jooust/assets/images/signal-2026-05-01-133541_002.jpeg",
+    "photo": "assets/images/signal-2026-05-01-133541_002.jpeg",
     "bio": "Computer Security student managing finances and budgets.",
     "linkedin": "https://linkedin.com/in/sally-faith",
     "department": "Treasury"
@@ -66,7 +66,7 @@
     "type": "executive",
     "era": "current",
     "yearServed": "2025-2026",
-    "photo": "enactus-jooust/assets/images/signal-2026-05-01-133541_001.jpeg",
+    "photo": "assets/images/signal-2026-05-01-133541_001.jpeg",
     "bio": "4th year Computer Science. Passionate about social tech solutions.",
     "linkedin": "",
     "department": "Marketing"
@@ -78,7 +78,7 @@
     "type": "department",
     "era": "current",
     "yearServed": "2025-2026",
-    "photo": "enactus-jooust/assets/images/signal-2026-05-01-133541_007.jpeg",
+    "photo": "assets/images/signal-2026-05-01-133541_007.jpeg",
     "bio": "Supporting marketing strategies and campaigns.",
     "linkedin": "",
     "department": "Marketing"
@@ -90,10 +90,10 @@
     "type": "department",
     "era": "current",
     "yearServed": "2025-2026",
-    "photo": "enactus-jooust/assets/images/signal-2026-05-01-133541.jpeg",
+    "photo": "assets/images/signal-2026-05-01-133541.jpeg",
     "bio": "Literature student managing documentation of club activities.",
     "linkedin": "",
-    "department": "Secretary"
+    "department": "Executive"
   },
   {
     "id": "tm-011",
