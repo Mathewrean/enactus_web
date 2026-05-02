@@ -30,7 +30,7 @@
     "type": "executive",
     "era": "current",
     "yearServed": "2025-2026",
-    "photo": "enactus-jooust/assets/images/signal-2026-05-01-133541_005.jpeg",
+    "photo": "enactus-jooust/assets/images/davy.jpeg",
     "bio": "Engineering student overseeing project execution.",
     "linkedin": null,
     "department": "Executive"
@@ -94,18 +94,6 @@
     "bio": "Literature student managing documentation of club activities.",
     "linkedin": "",
     "department": "Secretary"
-  },
-  {
-    "id": "tm-009",
-    "name": "Agriculture Projects Team",
-    "role": "Field Coordinator",
-    "type": "department",
-    "era": "current",
-    "yearServed": "2025-2026",
-    "photo": "assets/images/team-9.jpg",
-    "bio": "On-ground implementation of farming initiatives.",
-    "linkedin": "",
-    "department": "Projects"
   },
   {
     "id": "tm-011",
